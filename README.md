@@ -27,21 +27,23 @@ Example code use:
 from data import get_dataloaders
 from model import BaselineMlp
 
-train_loader, val_loader = get_dataloaders(
-    n_past=8, batch_size=128, percent_train=0.8
-)
+# Parameters.
+max_epochs = 100
+n_past = 8
+batch_size = 128
+n_hidden = [128, 64, 32, 16]
 
+# Load one batch to get the correct model dimensions.
+train_loader, val_loader = get_dataloaders(n_past=n_past, batch_size=1)
 train_iter = iter(train_loader)
 x, y = next(train_iter)
 
-n_input = x.shape[1]
+n_input = x.flatten(1).shape[1]
 n_output = y.shape[1]
 
-n_hidden = [256, 128, 64, 32]
-
 model = BaselineMlp(
-    n_input=n_input, n_hidden=n_hidden, n_output=n_output
+n_input=n_input, n_hidden=n_hidden, n_output=n_output
 )
 
-print(model)
+train_model(model, max_epochs, n_past, batch_size, do_early_stopping=False)
 ```
