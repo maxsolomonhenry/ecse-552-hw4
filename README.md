@@ -5,7 +5,7 @@ Repository containing code for HW 4.
 To setup in colab:
 
 ```python
-# Setup.
+# Download and setup repo.
 
 %%capture
 !pip install pytorch_lightning
@@ -14,7 +14,10 @@ import sys
 sys.path.append('/content/ecse-552-hw4/src/')
 sys.path.append('/content/ecse-552-hw4/data/')
 
+# Download data (only online for the duration of this assignment).
 !curl https://transfer.sh/11hWAU/weather_train.csv -o /content/ecse-552-hw4/data/weather_train.csv
+
+# Change working directory to repo directory.
 %cd /content/ecse-552-hw4
 
 ``` 
