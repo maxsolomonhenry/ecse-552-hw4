@@ -1,18 +1,22 @@
+import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader, random_split
 
 class WeatherDataset(Dataset):
 
-    def __init__(self, csv_path, n_past, to_predict = ["p (mbar)", "T (degC)", "rh (%)", "wv (m/s)"]):
-        df = pd.read_csv(csv_path)
+    def __init__(
+        self, csv_path, n_past, 
+        to_predict = ["p (mbar)", "T (degC)", "rh (%)", "wv (m/s)"]
+    ):
+        df = pd.read_csv(csv_path, )
         df = self._parse_date(df)
 
         self._n_sequences = df.shape[0] - (n_past + 1)
         self._n_past = n_past
 
         self._y_indices = self._get_y_indices(df, to_predict)
-        self._df = torch.tensor(df.values)
+        self._df = torch.tensor(df.to_numpy(dtype=np.single))
 
     def __getitem__(self, index):
         target_idx = index + self._n_past 
